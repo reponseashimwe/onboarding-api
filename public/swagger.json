@@ -1,0 +1,297 @@
+{
+	"openapi": "3.0.0",
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"globalType": {
+				"properties": {
+					"value": {
+						"type": "string"
+					},
+					"app": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"value",
+					"app"
+				],
+				"type": "object"
+			},
+			"IUser": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"name": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"phone": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					},
+					"isDriver": {
+						"type": "boolean"
+					},
+					"isPharmacist": {
+						"type": "boolean"
+					},
+					"isSuperAdmin": {
+						"type": "boolean"
+					},
+					"driverDetails": {
+						"$ref": "#/components/schemas/IDriverDetails"
+					}
+				},
+				"required": [
+					"id",
+					"name",
+					"email",
+					"phone",
+					"password",
+					"isDriver",
+					"isPharmacist",
+					"isSuperAdmin"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"IDriverDetails": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"userId": {
+						"type": "number",
+						"format": "double"
+					},
+					"driverNID": {
+						"type": "string"
+					},
+					"driverPlateNo": {
+						"type": "string"
+					},
+					"driverLicence": {
+						"type": "string"
+					},
+					"user": {
+						"$ref": "#/components/schemas/IUser"
+					}
+				},
+				"required": [
+					"id",
+					"userId",
+					"driverNID",
+					"driverPlateNo",
+					"driverLicence"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"IJWTPayload": {
+				"properties": {
+					"user": {
+						"$ref": "#/components/schemas/IUser"
+					},
+					"accessToken": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"accessToken"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"IRegister": {
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"phone": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"name",
+					"email",
+					"phone",
+					"password"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ILogin": {
+				"properties": {
+					"email": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"email",
+					"password"
+				],
+				"type": "object",
+				"additionalProperties": false
+			}
+		},
+		"securitySchemes": {
+			"jwtAuth": {
+				"type": "http",
+				"scheme": "bearer",
+				"bearerFormat": "JWT",
+				"description": "Bearer token to access these API endpoints"
+			}
+		}
+	},
+	"info": {
+		"title": "uruti-pharmacy",
+		"version": "1.0.0",
+		"license": {
+			"name": "ISC"
+		},
+		"contact": {}
+	},
+	"paths": {
+		"/api": {
+			"get": {
+				"operationId": "PublicPage",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/globalType"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Public"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/api/auth/register": {
+			"post": {
+				"operationId": "Register",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/IJWTPayload"
+								}
+							}
+						}
+					},
+					"201": {
+						"description": ""
+					}
+				},
+				"tags": [
+					"Authorization"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/IRegister"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/auth/login": {
+			"post": {
+				"operationId": "Login",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/IJWTPayload"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Authorization"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ILogin"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/auth": {
+			"get": {
+				"operationId": "Me",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/IUser"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Authorization"
+				],
+				"security": [
+					{
+						"jwtAuth": []
+					}
+				],
+				"parameters": []
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "/"
+		}
+	]
+}
