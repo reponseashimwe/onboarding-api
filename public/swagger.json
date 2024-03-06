@@ -7,21 +7,6 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
-			"globalType": {
-				"properties": {
-					"value": {
-						"type": "string"
-					},
-					"app": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"value",
-					"app"
-				],
-				"type": "object"
-			},
 			"IUser": {
 				"properties": {
 					"id": {
@@ -39,18 +24,6 @@
 					},
 					"password": {
 						"type": "string"
-					},
-					"isDriver": {
-						"type": "boolean"
-					},
-					"isPharmacist": {
-						"type": "boolean"
-					},
-					"isSuperAdmin": {
-						"type": "boolean"
-					},
-					"driverDetails": {
-						"$ref": "#/components/schemas/IDriverDetails"
 					}
 				},
 				"required": [
@@ -58,43 +31,7 @@
 					"name",
 					"email",
 					"phone",
-					"password",
-					"isDriver",
-					"isPharmacist",
-					"isSuperAdmin"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"IDriverDetails": {
-				"properties": {
-					"id": {
-						"type": "number",
-						"format": "double"
-					},
-					"userId": {
-						"type": "number",
-						"format": "double"
-					},
-					"driverNID": {
-						"type": "string"
-					},
-					"driverPlateNo": {
-						"type": "string"
-					},
-					"driverLicence": {
-						"type": "string"
-					},
-					"user": {
-						"$ref": "#/components/schemas/IUser"
-					}
-				},
-				"required": [
-					"id",
-					"userId",
-					"driverNID",
-					"driverPlateNo",
-					"driverLicence"
+					"password"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -165,36 +102,16 @@
 		}
 	},
 	"info": {
-		"title": "uruti-pharmacy",
+		"title": "onboarding-api",
 		"version": "1.0.0",
 		"license": {
 			"name": "ISC"
 		},
-		"contact": {}
+		"contact": {
+			"name": "Reponse Ashimwe"
+		}
 	},
 	"paths": {
-		"/api": {
-			"get": {
-				"operationId": "PublicPage",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/globalType"
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Public"
-				],
-				"security": [],
-				"parameters": []
-			}
-		},
 		"/api/auth/register": {
 			"post": {
 				"operationId": "Register",

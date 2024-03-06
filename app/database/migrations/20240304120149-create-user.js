@@ -28,21 +28,7 @@ module.exports = {
           type: Sequelize.STRING,
           allowNull: false,
         },
-        isDriver: {
-          type: Sequelize.BOOLEAN,
-          allowNull: false,
-          defaultValue: false,
-        },
-        isPharmacist: {
-          type: Sequelize.BOOLEAN,
-          allowNull: false,
-          defaultValue: false,
-        },
-        isSuperAdmin: {
-          type: Sequelize.BOOLEAN,
-          allowNull: false,
-          defaultValue: false,
-        },
+
         deletedAt: {
           type: Sequelize.DATE,
           allowNull: true,

@@ -10,9 +10,8 @@ import {
   Inject,
   Get,
 } from "tsoa";
-import { IJWTPayload, ILogin, IRegister, IUser, globalType } from "../type";
+import { IJWTPayload, ILogin, IRegister, IUser } from "../type";
 import UserModel from "../database/models/UserModel";
-import { JwtPayload } from "jsonwebtoken";
 import { compare, encrypt } from "../utils/Password";
 import CustomError from "../utils/CustomError";
 import { genToken } from "../utils/jwt";

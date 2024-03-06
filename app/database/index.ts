@@ -1,6 +1,5 @@
-import DriverDetailsModel from "./models/DriverDetailsModel";
 import UserModel from "./models/UserModel";
 
-const models = [UserModel, DriverDetailsModel];
+const models = [UserModel];
 
 export default models;

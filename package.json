@@ -1,18 +1,19 @@
 {
-  "name": "uruti-pharmacy",
+  "name": "onboarding-api",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./src/main.ts",
   "scripts": {
     "predev": "pnpm run swagger",
     "swagger": "tsoa spec",
     "dev": "concurrently \"nodemon \" \"nodemon -x tsoa spec\"",
     "start": "node ./dist/main.js",
     "build": "tsc",
+    "migrate": "pnpm sequelize-cli db:migrate",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "Reponse Ashimwe",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.1",

@@ -17,7 +17,6 @@ import {
   BelongsTo,
   HasOne,
 } from "sequelize-typescript";
-import DriverDetailsModel from "./DriverDetailsModel";
 
 @Table({
   tableName: "users",
@@ -45,21 +44,6 @@ class UserModel extends Model {
   @Column(DataType.STRING)
   phone!: string;
 
-  @AllowNull(false)
-  @Default(false)
-  @Column(DataType.BOOLEAN)
-  isDriver!: boolean;
-
-  @AllowNull(false)
-  @Default(false)
-  @Column(DataType.BOOLEAN)
-  isPharmacist!: boolean;
-
-  @AllowNull(false)
-  @Default(false)
-  @Column(DataType.BOOLEAN)
-  isSuperAdmin!: true;
-
   @DeletedAt
   @Column(DataType.DATE)
   deletedAt!: Date;
@@ -73,9 +57,6 @@ class UserModel extends Model {
   @Default(Sequelize.fn("NOW"))
   @Column(DataType.DATE)
   updatedAt!: Date;
-
-  @HasOne(() => DriverDetailsModel, "userId")
-  driverDetails!: DriverDetailsModel;
 }
 
 export default UserModel;
