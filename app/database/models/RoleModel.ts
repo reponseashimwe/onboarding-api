@@ -3,7 +3,6 @@ import {
   Table,
   Default,
   AllowNull,
-  Unique,
   PrimaryKey,
   ForeignKey,
   Model,
@@ -13,15 +12,14 @@ import {
   AutoIncrement,
   CreatedAt,
   BelongsTo,
-  HasOne,
 } from "sequelize-typescript";
 import OrganizationModel from "./OrganizationModel";
 
 @Table({
-  tableName: "users",
+  tableName: "roles",
   timestamps: false,
 })
-class UserModel extends Model {
+class RoleModel extends Model {
   @PrimaryKey
   @AutoIncrement
   @Column(DataType.INTEGER)
@@ -32,21 +30,8 @@ class UserModel extends Model {
   name!: string;
 
   @AllowNull(false)
-  @Unique(true)
-  @Column(DataType.STRING)
-  email!: string;
-
-  @AllowNull(false)
-  @Column(DataType.STRING)
-  password!: string;
-
-  @AllowNull(false)
-  @Column(DataType.STRING)
-  phone!: string;
-
-  @Default(false)
-  @Column(DataType.BOOLEAN)
-  isHR!: boolean;
+  @Column(DataType.TEXT)
+  description!: string;
 
   @AllowNull(true)
   @ForeignKey(() => OrganizationModel)
@@ -56,14 +41,10 @@ class UserModel extends Model {
   @BelongsTo(() => OrganizationModel, "organizationId")
   organization!: OrganizationModel;
 
-  @Default(false)
-  @Column(DataType.BOOLEAN)
-  isSuperAdmin!: boolean;
-
   @CreatedAt
   @Default(Sequelize.fn("NOW"))
   @Column(DataType.DATE)
   createdAt!: Date;
 }
 
-export default UserModel;
+export default RoleModel;

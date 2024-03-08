@@ -10,35 +10,60 @@ import {
   Inject,
   Get,
 } from "tsoa";
-import { IJWTPayload, ILogin, IRegister, IUser } from "../type";
+import { IJWTPayload, ILogin, IOrganization, IRegister, IUser } from "../type";
 import UserModel from "../database/models/UserModel";
 import { compare, encrypt } from "../utils/Password";
-import CustomError from "../utils/CustomError";
+import CustomError, { catchSequelizeError } from "../utils/CustomError";
 import { genToken } from "../utils/jwt";
+import { OrganizationController } from "./organization.controller";
+import OrganizationModel from "../database/models/OrganizationModel";
 
 @Tags("Authorization")
 @Route("api/auth")
 export class AuthController extends Controller {
   @Response(201)
   @Post("register")
-  public static async register(@Body() data: IRegister): Promise<IJWTPayload> {
+  public static async register(
+    @Body() data: IRegister
+  ): Promise<IJWTPayload | null> {
     try {
       const password = await encrypt(data.password);
-      const user = await UserModel.create({ ...data, password });
+      const user = await UserModel.create({
+        ...data,
+        organizationData: undefined,
+        password,
+      });
       if (!user || user == null) throw new CustomError("Creation failed");
-      const response = await this.login({
+      const organizationData = { ...data.organizationData, hrId: user.id };
+      const organization = (await OrganizationModel.create({
+        ...organizationData,
+      })) as IOrganization;
+
+      await UserModel.update(
+        { organizationId: organization.id },
+        { where: { id: user.id } }
+      );
+
+      const tokenData = await this.login({
         email: data.email,
         password: data.password,
       });
-      return response;
+      return {
+        ...{ ...user.toJSON(), organization },
+        accessToken: tokenData.accessToken,
+      };
     } catch (error) {
-      throw new CustomError("Creation failed");
+      catchSequelizeError({ item: "User", error });
+      return null;
     }
   }
 
   @Post("login")
   public static async login(@Body() data: ILogin): Promise<IJWTPayload> {
-    const user = await UserModel.findOne({ where: { email: data.email } });
+    const user = await UserModel.findOne({
+      where: { email: data.email },
+      include: ["organization"],
+    });
     if (user == null) throw new CustomError("Unknown credentials");
 
     const comparePasswords = compare(data.password, user.password);

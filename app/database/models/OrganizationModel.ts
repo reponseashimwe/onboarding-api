@@ -15,13 +15,13 @@ import {
   BelongsTo,
   HasOne,
 } from "sequelize-typescript";
-import OrganizationModel from "./OrganizationModel";
+import UserModel from "./UserModel";
 
 @Table({
-  tableName: "users",
+  tableName: "organizations",
   timestamps: false,
 })
-class UserModel extends Model {
+class OrganizationModel extends Model {
   @PrimaryKey
   @AutoIncrement
   @Column(DataType.INTEGER)
@@ -34,31 +34,15 @@ class UserModel extends Model {
   @AllowNull(false)
   @Unique(true)
   @Column(DataType.STRING)
-  email!: string;
-
-  @AllowNull(false)
-  @Column(DataType.STRING)
-  password!: string;
-
-  @AllowNull(false)
-  @Column(DataType.STRING)
-  phone!: string;
-
-  @Default(false)
-  @Column(DataType.BOOLEAN)
-  isHR!: boolean;
+  domain!: string;
 
   @AllowNull(true)
-  @ForeignKey(() => OrganizationModel)
+  @ForeignKey(() => UserModel)
   @Column(DataType.INTEGER)
-  organizationId!: number;
+  hrId!: number;
 
-  @BelongsTo(() => OrganizationModel, "organizationId")
-  organization!: OrganizationModel;
-
-  @Default(false)
-  @Column(DataType.BOOLEAN)
-  isSuperAdmin!: boolean;
+  @BelongsTo(() => UserModel, "hrId")
+  hrManager!: UserModel;
 
   @CreatedAt
   @Default(Sequelize.fn("NOW"))
@@ -66,4 +50,4 @@ class UserModel extends Model {
   createdAt!: Date;
 }
 
-export default UserModel;
+export default OrganizationModel;
