@@ -10,6 +10,7 @@
     "start": "node ./dist/main.js",
     "build": "tsc",
     "migrate": "pnpm sequelize-cli db:migrate",
+    "seed": "pnpm sequelize-cli db:seed:all",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
