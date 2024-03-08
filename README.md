@@ -4,6 +4,12 @@ This repository contains the source code for the onboarding API, designed to str
 
 ## Installation
 
+To get a local copy of this repository run the following commands:
+```bash
+git clone https://github.com/reponseashimwe/onboarding-api
+cd onboarding-api
+```
+
 To install the necessary dependencies, run the following command:
 
 ```bash
