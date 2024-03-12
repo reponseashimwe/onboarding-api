@@ -12,6 +12,7 @@ const VARIABLES = {
   EXPIRE:
     Number(process.env.EXPIRE as unknown as string) * 60 * 60 ||
     (3600 as number),
+  AIKEY: process.env.AIKEY || "",
 };
 
 export default VARIABLES;
