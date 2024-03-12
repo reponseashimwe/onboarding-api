@@ -53,3 +53,57 @@ export interface IJWTPayload {
 export interface IRoleCreate extends Pick<IRole, "name" | "description"> {}
 export interface IOrganizationCreate
   extends Pick<IOrganization, "name" | "domain" | "hrId"> {}
+
+export interface IProcess {
+  pdfFile: any;
+}
+
+export interface FileRequest {
+  [name: string]: File;
+}
+
+export interface EmployeeOnboardingInfo {
+  personalDetails: {
+    fullname: string | null;
+    dob: string | null;
+    maritalStatus: string | null;
+    gender: string | null;
+    carrerSummary: string | null;
+  };
+  contactDetails: {
+    phoneNumber: string | null;
+    emailAddress: string | null;
+  };
+  address?: {
+    country: string | null;
+    city: string | null;
+    otherAddress: string | null;
+  };
+  educationalBackground?: {
+    schoolName: string | null;
+    period: string | null; // "from to month, year"
+    details: string | null; // what was learned
+  }[];
+  experience?: {
+    institution: string | null;
+    period: string | null; // "from to month, year"
+    title: string | null;
+    details: string | null; // job responsibilities and achievements
+  }[];
+  skills: string[] | null;
+  certifications: string[] | null;
+  languages: string[] | null;
+  socialMediaProfiles: {
+    linkedIn?: string | null;
+    github?: string | null;
+    facebook?: string | null;
+    instagram?: string | null;
+  };
+  salary?: string | null;
+  startDate?: string | null;
+  bankInfo?: {
+    accountHolderName: string | null;
+    accountNumber: string | null;
+    bankName: string | null;
+  };
+}
