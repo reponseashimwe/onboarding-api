@@ -62,15 +62,15 @@ export interface FileRequest {
   [name: string]: File;
 }
 
-export interface EmployeeOnboardingInfo {
-  personalDetails: {
+export interface IEmployee {
+  personalDetails?: {
     fullname: string | null;
     dob: string | null;
     maritalStatus: string | null;
     gender: string | null;
     carrerSummary: string | null;
   };
-  contactDetails: {
+  contactDetails?: {
     phoneNumber: string | null;
     emailAddress: string | null;
   };
@@ -90,15 +90,13 @@ export interface EmployeeOnboardingInfo {
     title: string | null;
     details: string | null; // job responsibilities and achievements
   }[];
-  skills: string[] | null;
-  certifications: string[] | null;
-  languages: string[] | null;
-  socialMediaProfiles: {
-    linkedIn?: string | null;
-    github?: string | null;
-    facebook?: string | null;
-    instagram?: string | null;
-  };
+  skills?: string[] | null;
+  certifications?: string[] | null;
+  languages?: string[] | null;
+  socialMediaProfiles?: {
+    mediaName?: string | null;
+    url?: string | null;
+  }[];
   salary?: string | null;
   startDate?: string | null;
   bankInfo?: {

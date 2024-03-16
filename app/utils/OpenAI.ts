@@ -82,9 +82,9 @@ const extractPersonInfo = async (pdfText: string) => {
             "details": "desc of what he did and some achievements"
           }
         ],
-        "socialMedia" {
+        "socialMedia" [{
             "mediaName": "url here"
-        },
+        }],
         "languages": [],
         "skills": [],
         "qualifications": [],
