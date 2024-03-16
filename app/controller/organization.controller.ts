@@ -15,7 +15,6 @@ import { IOrganization, IOrganizationCreate, IRegister } from "../type";
 import { catchSequelizeError } from "../utils/CustomError";
 import OrganizationModel from "../database/models/OrganizationModel";
 import UserModel from "../database/models/UserModel";
-import { where } from "sequelize";
 
 @Tags("Organizations")
 @Route("api/organizations")

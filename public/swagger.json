@@ -185,6 +185,205 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"IEmployee": {
+				"properties": {
+					"personalDetails": {
+						"properties": {
+							"carrerSummary": {
+								"type": "string",
+								"nullable": true
+							},
+							"gender": {
+								"type": "string",
+								"nullable": true
+							},
+							"maritalStatus": {
+								"type": "string",
+								"nullable": true
+							},
+							"dob": {
+								"type": "string",
+								"nullable": true
+							},
+							"fullname": {
+								"type": "string",
+								"nullable": true
+							}
+						},
+						"required": [
+							"carrerSummary",
+							"gender",
+							"maritalStatus",
+							"dob",
+							"fullname"
+						],
+						"type": "object"
+					},
+					"contactDetails": {
+						"properties": {
+							"emailAddress": {
+								"type": "string",
+								"nullable": true
+							},
+							"phoneNumber": {
+								"type": "string",
+								"nullable": true
+							}
+						},
+						"required": [
+							"emailAddress",
+							"phoneNumber"
+						],
+						"type": "object"
+					},
+					"address": {
+						"properties": {
+							"otherAddress": {
+								"type": "string",
+								"nullable": true
+							},
+							"city": {
+								"type": "string",
+								"nullable": true
+							},
+							"country": {
+								"type": "string",
+								"nullable": true
+							}
+						},
+						"required": [
+							"otherAddress",
+							"city",
+							"country"
+						],
+						"type": "object"
+					},
+					"educationalBackground": {
+						"items": {
+							"properties": {
+								"details": {
+									"type": "string",
+									"nullable": true
+								},
+								"period": {
+									"type": "string",
+									"nullable": true
+								},
+								"schoolName": {
+									"type": "string",
+									"nullable": true
+								}
+							},
+							"required": [
+								"details",
+								"period",
+								"schoolName"
+							],
+							"type": "object"
+						},
+						"type": "array"
+					},
+					"experience": {
+						"items": {
+							"properties": {
+								"details": {
+									"type": "string",
+									"nullable": true
+								},
+								"title": {
+									"type": "string",
+									"nullable": true
+								},
+								"period": {
+									"type": "string",
+									"nullable": true
+								},
+								"institution": {
+									"type": "string",
+									"nullable": true
+								}
+							},
+							"required": [
+								"details",
+								"title",
+								"period",
+								"institution"
+							],
+							"type": "object"
+						},
+						"type": "array"
+					},
+					"skills": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array",
+						"nullable": true
+					},
+					"certifications": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array",
+						"nullable": true
+					},
+					"languages": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array",
+						"nullable": true
+					},
+					"socialMediaProfiles": {
+						"items": {
+							"properties": {
+								"url": {
+									"type": "string",
+									"nullable": true
+								},
+								"mediaName": {
+									"type": "string",
+									"nullable": true
+								}
+							},
+							"type": "object"
+						},
+						"type": "array"
+					},
+					"salary": {
+						"type": "string",
+						"nullable": true
+					},
+					"startDate": {
+						"type": "string",
+						"nullable": true
+					},
+					"bankInfo": {
+						"properties": {
+							"bankName": {
+								"type": "string",
+								"nullable": true
+							},
+							"accountNumber": {
+								"type": "string",
+								"nullable": true
+							},
+							"accountHolderName": {
+								"type": "string",
+								"nullable": true
+							}
+						},
+						"required": [
+							"bankName",
+							"accountNumber",
+							"accountHolderName"
+						],
+						"type": "object"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
 			"IJWTPayload": {
 				"properties": {
 					"user": {
@@ -835,6 +1034,186 @@
 				},
 				"tags": [
 					"Organizations"
+				],
+				"security": [
+					{
+						"jwtAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/api/employees": {
+			"post": {
+				"operationId": "Create",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/IUser"
+								}
+							}
+						}
+					},
+					"201": {
+						"description": ""
+					}
+				},
+				"tags": [
+					"Employees"
+				],
+				"security": [
+					{
+						"jwtAuth": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/IEmployee"
+							}
+						}
+					}
+				}
+			},
+			"get": {
+				"operationId": "GetAll",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/IUser"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Employees"
+				],
+				"security": [
+					{
+						"jwtAuth": []
+					}
+				],
+				"parameters": []
+			}
+		},
+		"/api/employees/{id}": {
+			"get": {
+				"operationId": "GetOne",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/IUser"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Employees"
+				],
+				"security": [
+					{
+						"jwtAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "Update",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/IUser"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Employees"
+				],
+				"security": [
+					{
+						"jwtAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/IEmployee"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "Delete",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "boolean"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Employees"
 				],
 				"security": [
 					{

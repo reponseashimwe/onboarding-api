@@ -16,6 +16,7 @@ import {
   HasOne,
 } from "sequelize-typescript";
 import OrganizationModel from "./OrganizationModel";
+import EmployeeModel from "./EmployeeModel";
 
 @Table({
   tableName: "users",
@@ -64,6 +65,9 @@ class UserModel extends Model {
   @Default(Sequelize.fn("NOW"))
   @Column(DataType.DATE)
   createdAt!: Date;
+
+  @HasOne(() => EmployeeModel, "userId")
+  employeeDetails!: EmployeeModel;
 }
 
 export default UserModel;

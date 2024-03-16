@@ -23,7 +23,7 @@ export class UserController extends Controller {
   @Post()
   public static async create(@Body() data: IUserCreate): Promise<IUser> {
     try {
-      const user = await UserModel.create({ ...data });
+      const user = await UserModel.create({ ...data, isHR: true });
 
       return user.toJSON();
     } catch (error) {

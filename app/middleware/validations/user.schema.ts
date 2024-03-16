@@ -21,7 +21,7 @@ export const employeeSchema = z.object({
     }),
     contactDetails: z.object({
       email: z.string().nullable(),
-      phone: z.string().nullable(),
+      phoneNumber: z.string().nullable(),
     }),
     address: z.object({
       country: z.string().nullable(),
@@ -46,12 +46,12 @@ export const employeeSchema = z.object({
     skills: z.array(z.string().nullable()),
     certifications: z.array(z.string().nullable()),
     languages: z.array(z.string().nullable()),
-    socialMediaProfiles: z.object({
-      github: z.string().nullable(),
-      linkedIn: z.string().nullable(),
-      instagram: z.string().nullable(),
-      facebook: z.string().nullable(),
-    }),
+    socialMediaProfiles: z.array(
+      z.object({
+        mediaName: z.string().nullable(),
+        url: z.string().nullable(),
+      })
+    ),
     salary: z.string().nullable(),
     startDate: z.string().nullable(),
     bankInfo: z.object({
