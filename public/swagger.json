@@ -185,11 +185,38 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"Record_string.string_": {
+				"properties": {},
+				"additionalProperties": {
+					"type": "string"
+				},
+				"type": "object",
+				"description": "Construct a type with a set of properties K of type T"
+			},
 			"IEmployee": {
 				"properties": {
+					"contract": {
+						"nullable": true
+					},
+					"relievingLetter": {
+						"nullable": true
+					},
+					"experienceLetter": {
+						"nullable": true
+					},
+					"appointmentLLetter": {
+						"nullable": true
+					},
+					"salarySlip": {
+						"nullable": true
+					},
 					"personalDetails": {
 						"properties": {
 							"carrerSummary": {
+								"type": "string",
+								"nullable": true
+							},
+							"nationality": {
 								"type": "string",
 								"nullable": true
 							},
@@ -212,6 +239,7 @@
 						},
 						"required": [
 							"carrerSummary",
+							"nationality",
 							"gender",
 							"maritalStatus",
 							"dob",
@@ -238,6 +266,10 @@
 					},
 					"address": {
 						"properties": {
+							"zipCode": {
+								"type": "string",
+								"nullable": true
+							},
 							"otherAddress": {
 								"type": "string",
 								"nullable": true
@@ -252,6 +284,7 @@
 							}
 						},
 						"required": [
+							"zipCode",
 							"otherAddress",
 							"city",
 							"country"
@@ -350,14 +383,6 @@
 						},
 						"type": "array"
 					},
-					"salary": {
-						"type": "string",
-						"nullable": true
-					},
-					"startDate": {
-						"type": "string",
-						"nullable": true
-					},
 					"bankInfo": {
 						"properties": {
 							"bankName": {
@@ -379,6 +404,50 @@
 							"accountHolderName"
 						],
 						"type": "object"
+					},
+					"employmentDetails": {
+						"properties": {
+							"salary": {
+								"type": "string",
+								"nullable": true
+							},
+							"joiningDate": {
+								"type": "string",
+								"nullable": true
+							},
+							"officeLocation": {
+								"type": "string",
+								"nullable": true
+							},
+							"workingDays": {
+								"type": "string",
+								"nullable": true
+							},
+							"designation": {
+								"type": "string",
+								"nullable": true
+							},
+							"employeeType": {
+								"type": "string",
+								"nullable": true
+							},
+							"employeeID": {
+								"type": "string",
+								"nullable": true
+							}
+						},
+						"required": [
+							"joiningDate",
+							"officeLocation",
+							"workingDays",
+							"designation",
+							"employeeType",
+							"employeeID"
+						],
+						"type": "object"
+					},
+					"documents": {
+						"$ref": "#/components/schemas/Record_string.string_"
 					}
 				},
 				"type": "object",

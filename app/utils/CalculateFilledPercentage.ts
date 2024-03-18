@@ -1,4 +1,4 @@
-function calculateFillPercentage(employee: Record<any, any>) {
+const calculateFillPercentage = (employee: Record<any, any>) => {
   // Initialize variables
   let totalProperties = 0;
   let filledProperties = 0;
@@ -37,8 +37,10 @@ function calculateFillPercentage(employee: Record<any, any>) {
 
   // Calculate and return the fill percentage
   return (filledProperties / totalProperties) * 100;
-}
+};
 
 function notEmpty(value: any) {
   return value != "" && value !== null && value.length > 0;
 }
+
+export default calculateFillPercentage;

@@ -18,6 +18,7 @@ import UserModel from "../database/models/UserModel";
 import { encrypt } from "../utils/Password";
 import OrganizationModel from "../database/models/OrganizationModel";
 import EmployeeModel from "../database/models/EmployeeModel";
+import calculateFillPercentage from "../utils/CalculateFilledPercentage";
 
 @Tags("Employees")
 @Route("api/employees")
@@ -50,7 +51,7 @@ export class EmployeesController extends Controller {
       await EmployeeModel.create({
         ...data,
         fillPercentage,
-        userId: user.id,
+        userId: userJSON.id,
       });
 
       return user;
@@ -60,9 +61,12 @@ export class EmployeesController extends Controller {
   }
 
   @Get()
-  public static async getAll(): Promise<IUser[]> {
+  public static async getAll(@Inject() user: IUser): Promise<IUser[]> {
     const users = (await UserModel.findAll({
       order: [["createdAt", "DESC"]],
+      where: user.isSuperAdmin ? {} : { organizationId: user.organizationId },
+      include: ["employeeDetails"],
+      attributes: { exclude: ["password"] },
     })) as unknown as IUser[];
     return users;
   }
@@ -78,7 +82,7 @@ export class EmployeesController extends Controller {
     @Path() id: number,
     @Body() data: IEmployee
   ): Promise<IUser> {
-    await UserModel.update({ data }, { where: { id } });
+    await UserModel.update({ ...data }, { where: { id } });
     const user = await UserModel.findByPk(id);
     return user?.toJSON() as unknown as IUser;
   }

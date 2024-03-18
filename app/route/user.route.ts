@@ -1,5 +1,4 @@
 import express, { NextFunction, Request, Response } from "express";
-import { AuthController } from "../controller/auth.controller";
 import validate from "../middleware/validations/validator";
 import authorize from "../middleware/authorize.middleware";
 import isSuperAdmin from "../middleware/isSuperAdmin.middleware";
@@ -15,7 +14,7 @@ userRouter.post(
   validate(userSchema),
   async (req: Request, res, next: NextFunction) => {
     try {
-      const response = await AuthController.register(req.body);
+      const response = await UserController.create(req.body);
       return res.status(200).json(response);
     } catch (error) {
       return next(error);

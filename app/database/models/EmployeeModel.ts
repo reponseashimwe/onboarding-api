@@ -63,10 +63,6 @@ class EmployeeModel extends Model {
   @Column(DataType.ARRAY(DataType.JSON))
   socialMediaProfiles!: Record<string, any>[];
 
-  @AllowNull(true)
-  @Column(DataType.STRING)
-  salary!: string;
-
   @Default([])
   @Column(DataType.ARRAY(DataType.STRING))
   skills!: string[];
@@ -83,9 +79,13 @@ class EmployeeModel extends Model {
   @Column(DataType.JSON)
   bankInfo!: Record<string, any>;
 
-  @Default(() => Sequelize.fn("NOW"))
-  @Column(DataType.DATE)
-  startDate!: Date;
+  @Default({})
+  @Column(DataType.JSON)
+  employmentDetails!: Record<string, any>;
+
+  @Default({})
+  @Column(DataType.JSON)
+  documents!: Record<string, any>;
 
   @CreatedAt
   @Default(() => Sequelize.fn("NOW"))

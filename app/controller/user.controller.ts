@@ -14,6 +14,7 @@ import {
 import { IUser, IUserCreate } from "../type";
 import CustomError from "../utils/CustomError";
 import UserModel from "../database/models/UserModel";
+import OrganizationModel from "../database/models/OrganizationModel";
 
 @Tags("Users")
 @Route("api/users")
@@ -23,7 +24,7 @@ export class UserController extends Controller {
   @Post()
   public static async create(@Body() data: IUserCreate): Promise<IUser> {
     try {
-      const user = await UserModel.create({ ...data, isHR: true });
+      const user = await UserModel.create({ ...data });
 
       return user.toJSON();
     } catch (error) {
@@ -50,7 +51,7 @@ export class UserController extends Controller {
     @Path() id: number,
     @Body() data: IUserCreate
   ): Promise<IUser> {
-    await UserModel.update({ data }, { where: { id } });
+    await UserModel.update({ ...data }, { where: { id } });
     const user = await UserModel.findByPk(id);
     return user?.toJSON() as unknown as IUser;
   }

@@ -48,7 +48,7 @@ const extractPersonInfo = async (pdfText: string) => {
       8. Skills
           
       
-      Please parse the text and provide the extracted information in the following specified JSON format, replacing unspecified values with parseable "N/A".
+      Please parse the text and provide the extracted information in the following specified JSON format. Return just an object, with no \`\`\`json formatter at the beginning or marking the end.
           
       {
         "personalDetails": {
@@ -98,7 +98,6 @@ const extractPersonInfo = async (pdfText: string) => {
       model: "gpt-3.5-turbo",
       messages: [{ content: prompt, role: "system" }],
     });
-
     const parsedJSON = JSON.parse(
       response.choices[0].message.content as string
     );
