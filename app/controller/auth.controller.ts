@@ -32,6 +32,7 @@ export class AuthController extends Controller {
         ...data,
         organizationData: undefined,
         password,
+        isHR: true,
       });
       if (!user || user == null) throw new CustomError("Creation failed");
       const organizationData = { ...data.organizationData, hrId: user.id };

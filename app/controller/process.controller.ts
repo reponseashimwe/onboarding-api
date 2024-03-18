@@ -23,7 +23,7 @@ export class ProcessController extends Controller {
 
       // Respond with the extracted text
       res.status(200); // Set HTTP status code
-      res.json({ success: true, text: pdfText, aitext });
+      res.json({ ...aitext });
     } catch (error) {
       console.error("Error processing the file:", error);
       res.status(500); // Set HTTP status code

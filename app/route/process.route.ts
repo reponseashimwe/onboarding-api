@@ -4,7 +4,7 @@ import { ProcessController } from "../controller/process.controller";
 import { processSchema } from "../middleware/validations/process.schema";
 import CustomError from "../utils/CustomError";
 import { FileRequest } from "../type";
-import { memoryUpload } from "../utils/MemoryUpload";
+import { memoryUpload } from "../utils/Multer";
 
 const processRouter = express.Router();
 

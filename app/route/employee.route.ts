@@ -1,10 +1,12 @@
 import express, { NextFunction, Request, Response } from "express";
-import { AuthController } from "../controller/auth.controller";
 import validate from "../middleware/validations/validator";
 import authorize from "../middleware/authorize.middleware";
 import { employeeSchema } from "../middleware/validations/user.schema";
 import { EmployeesController } from "../controller/employee.controller";
 import isHR from "../middleware/isHr.middleware";
+import CloudinaryUpload from "../utils/CloudinaryUpload";
+import { upload } from "../utils/Multer";
+import { IUser } from "../type";
 
 const employeeRouter = express.Router();
 employeeRouter.use(authorize);
@@ -13,9 +15,30 @@ employeeRouter.post(
   "/",
   isHR,
   validate(employeeSchema),
+  CloudinaryUpload.fields([
+    { name: "contract" },
+    { name: "salarySlip" },
+    { name: "appointmentLLetter" },
+    { name: "experienceLetter" },
+    { name: "relievingLetter" },
+  ]),
   async (req: Request, res, next: NextFunction) => {
     try {
-      const response = await AuthController.register(req.body);
+      const uploadedFiles = req.files; // Access all uploaded files directly
+      let documents: Record<string, any> = {};
+
+      // Process uploaded files (optional)
+      for (const documentType in uploadedFiles) {
+        const uploadedFile = (uploadedFiles as any)[documentType];
+
+        // You can access the path of the uploaded file on Cloudinary:
+        documents[documentType] = uploadedFile[0].path;
+      }
+      req.body.documents = documents;
+      const response = await EmployeesController.create(
+        req.body,
+        req.user?.organizationId as number
+      );
       return res.status(200).json(response);
     } catch (error) {
       return next(error);
@@ -25,7 +48,7 @@ employeeRouter.post(
 
 employeeRouter.get("/", async (req: Request, res, next: NextFunction) => {
   try {
-    const response = await EmployeesController.getAll();
+    const response = await EmployeesController.getAll(req.user as IUser);
     return res.status(200).json(response);
   } catch (error) {
     return next(error);

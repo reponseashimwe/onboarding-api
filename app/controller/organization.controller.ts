@@ -63,7 +63,7 @@ export class OrganizationController extends Controller {
     @Path() id: number,
     @Body() data: IOrganizationCreate
   ): Promise<IOrganization> {
-    await OrganizationModel.update({ data }, { where: { id } });
+    await OrganizationModel.update({ ...data }, { where: { id } });
     if (data.hrId !== null) {
       await UserModel.update(
         { organizationId: id },

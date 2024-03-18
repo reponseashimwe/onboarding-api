@@ -50,7 +50,7 @@ export class RoleController extends Controller {
     @Path() id: number,
     @Body() data: IRoleCreate
   ): Promise<IRole> {
-    await RoleModel.update({ data }, { where: { id } });
+    await RoleModel.update({ ...data }, { where: { id } });
     const role = await RoleModel.findByPk(id);
     return role?.toJSON() as unknown as IRole;
   }

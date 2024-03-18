@@ -18,6 +18,7 @@ export const employeeSchema = z.object({
       maritalStatus: z.string().nullable(),
       gender: z.string().nullable(),
       careerSummary: z.string().nullable(),
+      nationality: z.string().nullable(),
     }),
     contactDetails: z.object({
       email: z.string().nullable(),
@@ -52,12 +53,26 @@ export const employeeSchema = z.object({
         url: z.string().nullable(),
       })
     ),
-    salary: z.string().nullable(),
-    startDate: z.string().nullable(),
     bankInfo: z.object({
       accountHolderName: z.string().nullable(),
       accountNumber: z.string().nullable(),
       bankName: z.string().nullable(),
     }),
+    employmentDetails: z.object({
+      employeeID: z.string().nullable(),
+      employeeType: z.string().nullable(),
+      designation: z.string().nullable(),
+      workingDays: z.string().nullable(),
+      officeLocation: z.string().nullable(),
+      joiningDate: z.string().nullable(),
+      salary: z.string().nullable(),
+    }),
+
+    // Documents
+    salarySlip: z.any().nullable(),
+    appointmentLetter: z.any().nullable(),
+    experienceLetter: z.any().nullable(),
+    relievingLetter: z.any().nullable(),
+    contract: z.any().nullable(),
   }),
 });

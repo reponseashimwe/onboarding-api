@@ -62,12 +62,13 @@ export interface FileRequest {
   [name: string]: File;
 }
 
-export interface IEmployee {
+export interface IEmployee extends documents {
   personalDetails?: {
     fullname: string | null;
     dob: string | null;
     maritalStatus: string | null;
     gender: string | null;
+    nationality: string | null;
     carrerSummary: string | null;
   };
   contactDetails?: {
@@ -78,6 +79,7 @@ export interface IEmployee {
     country: string | null;
     city: string | null;
     otherAddress: string | null;
+    zipCode: string | null;
   };
   educationalBackground?: {
     schoolName: string | null;
@@ -97,11 +99,28 @@ export interface IEmployee {
     mediaName?: string | null;
     url?: string | null;
   }[];
-  salary?: string | null;
-  startDate?: string | null;
   bankInfo?: {
     accountHolderName: string | null;
     accountNumber: string | null;
     bankName: string | null;
   };
+  employmentDetails?: {
+    employeeID: string | null;
+    employeeType: string | null;
+    designation: string | null;
+    workingDays: string | null;
+    officeLocation: string | null;
+    joiningDate: string | null;
+    salary?: string | null;
+  };
+
+  documents?: Record<string, string>;
 }
+
+type documents = {
+  salarySlip?: any | null;
+  appointmentLLetter?: any | null;
+  experienceLetter?: any | null;
+  relievingLetter?: any | null;
+  contract?: any | null;
+};
