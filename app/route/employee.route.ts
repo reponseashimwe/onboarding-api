@@ -6,7 +6,7 @@ import { EmployeesController } from "../controller/employee.controller";
 import isHR from "../middleware/isHr.middleware";
 import CloudinaryUpload from "../utils/CloudinaryUpload";
 import { upload } from "../utils/Multer";
-import { IUser } from "../type";
+import { IEmployee, IUser } from "../type";
 
 const employeeRouter = express.Router();
 employeeRouter.use(authorize);
@@ -14,7 +14,6 @@ employeeRouter.use(authorize);
 employeeRouter.post(
   "/",
   isHR,
-  validate(employeeSchema),
   CloudinaryUpload.fields([
     { name: "contract" },
     { name: "salarySlip" },
@@ -22,6 +21,8 @@ employeeRouter.post(
     { name: "experienceLetter" },
     { name: "relievingLetter" },
   ]),
+  // validate(employeeSchema),
+
   async (req: Request, res, next: NextFunction) => {
     try {
       const uploadedFiles = req.files; // Access all uploaded files directly
@@ -34,9 +35,15 @@ employeeRouter.post(
         // You can access the path of the uploaded file on Cloudinary:
         documents[documentType] = uploadedFile[0].path;
       }
-      req.body.documents = documents;
+      let data: Record<string, any> = {};
+      for (const key in req.body) {
+        console.log(JSON.parse(req.body[key]), typeof req.body[key]);
+        data[key] = JSON.parse(req.body[key]);
+      }
+      data.documents = documents;
+
       const response = await EmployeesController.create(
-        req.body,
+        data,
         req.user?.organizationId as number
       );
       return res.status(200).json(response);

@@ -3,7 +3,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.addColumn("employees", "professionalDetails", {
+    await queryInterface.addColumn("employees", "employmentDetails", {
       type: Sequelize.JSON,
       allowNull: false,
       defaultValue: {},
@@ -21,7 +21,7 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.removeColumn("employees", "professionalDetails");
+    await queryInterface.removeColumn("employees", "employmentDetails");
     await queryInterface.removeColumn("employees", "documents");
 
     await queryInterface.addColumn("employees", "salary", {

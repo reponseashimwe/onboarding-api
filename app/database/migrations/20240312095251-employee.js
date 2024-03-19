@@ -76,7 +76,7 @@ module.exports = {
           defaultValue: [],
         },
         bankInfo: {
-          type: Sequelize.ARRAY(Sequelize.JSON),
+          type: Sequelize.JSON,
           allowNull: false,
           defaultValue: [],
         },
