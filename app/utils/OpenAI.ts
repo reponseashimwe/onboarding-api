@@ -27,19 +27,19 @@ const extractPersonInfo = async (pdfText: string) => {
          - City
          - Other Address Details
       
-      4. Educational Background:
+      4. Educational Background (all of them):
          - School Name
          - Period (from - to month, year)
          - Details of what was learned
       
-      5. Experience:
+      5. Experience (all of them):
          - Institution Name
          - Period (from - to month, year)
          - Job Title
          - Details of job responsibilities and achievements
 
-      6. SocialMedia
-         - Faacebook
+      6. SocialMedia (if the link is not present, skip the key)
+         - Facebook
          - Instagram
          - LinkedIn
          - Github
@@ -83,7 +83,8 @@ const extractPersonInfo = async (pdfText: string) => {
           }
         ],
         "socialMedia" [{
-            "mediaName": "url here"
+            "mediaName": "media name such as facebook",
+            "url": "social media url here"
         }],
         "languages": [],
         "skills": [],
@@ -98,14 +99,41 @@ const extractPersonInfo = async (pdfText: string) => {
       model: "gpt-3.5-turbo",
       messages: [{ content: prompt, role: "system" }],
     });
-    const parsedJSON = JSON.parse(
-      response.choices[0].message.content as string
-    );
+    let parsedJSON = JSON.parse(response.choices[0].message.content as string);
+
+    parsedJSON = notProvidedToNull(parsedJSON);
     return parsedJSON;
   } catch (err) {
     console.error("OpenAI API Error:", err);
     throw new CustomError("Failed in API request", 400);
   }
+};
+
+const notProvidedToNull = (parsedJSON: Record<string, any>) => {
+  for (const key in parsedJSON) {
+    if (typeof parsedJSON[key] === "object") {
+      for (const i in parsedJSON[key]) {
+        if (
+          typeof parsedJSON[key][i] === "string" &&
+          parsedJSON[key][i].toLowerCase().endsWith("not provided")
+        ) {
+          parsedJSON[key][i] = null;
+        } else if (typeof parsedJSON[key][i] === "object") {
+          for (let j = 0; j < parsedJSON[key][i].length; j++) {
+            for (const k in parsedJSON[key][i][j]) {
+              if (
+                typeof parsedJSON[key][i][j][k] === "string" &&
+                parsedJSON[key][i][j][k].toLowerCase().endsWith("not provided")
+              )
+                parsedJSON[key][i][j][k] = null;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  return parsedJSON;
 };
 
 export default extractPersonInfo;

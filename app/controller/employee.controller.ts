@@ -19,6 +19,7 @@ import { encrypt } from "../utils/Password";
 import OrganizationModel from "../database/models/OrganizationModel";
 import EmployeeModel from "../database/models/EmployeeModel";
 import calculateFillPercentage from "../utils/CalculateFilledPercentage";
+import { Op } from "sequelize";
 
 @Tags("Employees")
 @Route("api/employees")
@@ -35,18 +36,28 @@ export class EmployeesController extends Controller {
       const organizationDomain = (
         (await OrganizationModel.findByPk(organization)) as IOrganization
       ).domain;
-      const userEmail = data.personalDetails?.fullname
-        ?.replace(" ", "")
-        .concat("@")
-        .concat(organizationDomain);
+
+      const userNames = data.personalDetails?.fullname?.split(" ") as string[];
+      const userEmail = userNames[0][0]
+        .concat(".")
+        .concat(userNames[userNames.length - 1])
+        .toLowerCase();
+      const otherUsers = await UserModel.findAll({
+        where: { email: { [Op.iLike]: `${userEmail}%` } },
+      });
+      const email =
+        otherUsers.length > 0
+          ? userEmail.concat(otherUsers.length.toString())
+          : userEmail;
       const user = await UserModel.create({
-        email: userEmail,
+        email: email.concat("@").concat(organizationDomain),
         phone: data.contactDetails?.phoneNumber,
         password: userPass,
+        name: data.personalDetails?.fullname,
         organizationId: organization,
       });
       const userJSON = user.toJSON();
-      const fillPercentage = calculateFillPercentage(data);
+      const fillPercentage = Math.floor(calculateFillPercentage(data));
 
       await EmployeeModel.create({
         ...data,
@@ -56,6 +67,7 @@ export class EmployeesController extends Controller {
 
       return user;
     } catch (error) {
+      console.error(error);
       throw new CustomError("Creation failed");
     }
   }
